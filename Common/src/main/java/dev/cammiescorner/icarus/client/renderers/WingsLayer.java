@@ -87,9 +87,10 @@ public class WingsLayer<S extends HumanoidRenderState, M extends EntityModel<S>>
             case DRAGON, MECHANICAL_FEATHERED, MECHANICAL_LEATHER -> true;
             case FEATHERED, LIGHT, UNIQUE -> false;
         };
+        double armorOffset = hasChestArmor(state) ? 0.08D : 0.0D;
 
         poseStack.pushPose();
-        poseStack.translate(0.0D, 0.0D, 0.125D);
+        poseStack.translate(0.0D, 0.0D, 0.125D + armorOffset);
         submitNodeCollector.submitModel(
             wingModel,
             state,
@@ -145,5 +146,9 @@ public class WingsLayer<S extends HumanoidRenderState, M extends EntityModel<S>>
         }
 
         return ItemStack.EMPTY;
+    }
+
+    private boolean hasChestArmor(S state) {
+        return !state.chestEquipment.isEmpty() && !(state.chestEquipment.getItem() instanceof WingItem);
     }
 }
