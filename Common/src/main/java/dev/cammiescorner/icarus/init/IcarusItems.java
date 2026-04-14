@@ -5,6 +5,7 @@ import dev.cammiescorner.icarus.item.WingItem;
 import dev.upcraft.sparkweave.api.registry.RegistryHandler;
 import dev.upcraft.sparkweave.api.registry.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 
@@ -101,6 +102,10 @@ public class IcarusItems {
     public static final RegistrySupplier<WingItem> FLANDRES_WINGS = wing("flandres_wings", WingItem.WingType.UNIQUE);
     public static final RegistrySupplier<WingItem> DISCORDS_WINGS = wing("discords_wings", WingItem.WingType.UNIQUE);
     public static final RegistrySupplier<WingItem> ZANZAS_WINGS = wing("zanzas_wings", WingItem.WingType.UNIQUE);
+    public static final RegistrySupplier<CreativeModeTab> TAB = CREATIVE_TABS.register("tab", () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
+        .icon(() -> WHITE_FEATHERED_WINGS.get().getDefaultInstance())
+        .title(Component.translatable("itemGroup.icarus.items"))
+        .build());
 
     private static RegistrySupplier<WingItem> wing(String name, WingItem.WingType wingType) {
         return ITEMS.register(name, () -> new WingItem(Icarus.id(name), wingType));

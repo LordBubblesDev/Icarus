@@ -1,5 +1,6 @@
 package dev.cammiescorner.icarus.fabric.entrypoints;
 
+import dev.cammiescorner.icarus.Icarus;
 import dev.cammiescorner.icarus.api.IcarusPlayerValues;
 import dev.cammiescorner.icarus.fabric.IcarusFabricGameRules;
 import dev.cammiescorner.icarus.init.IcarusItems;
@@ -9,11 +10,13 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.entity.event.v1.EntityElytraEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.gameevent.GameEvent;
 
@@ -24,6 +27,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class Main implements ModInitializer {
+    private static final ResourceKey<CreativeModeTab> ICARUS_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Icarus.id("tab"));
 
     @Override
     public void onInitialize() {
@@ -128,7 +132,7 @@ public class Main implements ModInitializer {
             return false;
         };
 
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(output -> IcarusItems.ITEMS.stream()
+        CreativeModeTabEvents.modifyOutputEvent(ICARUS_TAB_KEY).register(output -> IcarusItems.ITEMS.stream()
             .map(supplier -> supplier.get().getDefaultInstance())
             .forEach(output::accept));
 
