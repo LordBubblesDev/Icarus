@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-def javaVersion = 21
+def javaVersion = 25
 
 group = maven_group_id
 
@@ -31,17 +31,6 @@ subprojects {
 			url = "https://repo.spongepowered.org/repository/maven-public"
 			content {
 				includeGroup "org.spongepowered"
-			}
-		}
-		exclusiveContent {
-			forRepository {
-				maven {
-					name = "ParchmentMC"
-					url = "https://maven.parchmentmc.org"
-				}
-			}
-			filter {
-				includeGroupAndSubgroups("org.parchmentmc")
 			}
 		}
 		maven {

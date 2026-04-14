@@ -12,13 +12,17 @@ public class ClientPlayerFallbackValues extends ServerPlayerFallbackValues imple
     private final float maxSlowedMultiplier;
     private final boolean canLoopDeLoop;
     private final float requiredFoodAmount;
+    private final boolean flyingUsesHunger;
+    private final boolean flyingReducesWingDurability;
 
-    public ClientPlayerFallbackValues(float wingsSpeed, float maxSlowedMultiplier, boolean armorSlows, boolean canLoopDeLoop, float requiredFoodAmount) {
+    public ClientPlayerFallbackValues(float wingsSpeed, float maxSlowedMultiplier, boolean armorSlows, boolean canLoopDeLoop, float requiredFoodAmount, boolean flyingUsesHunger, boolean flyingReducesWingDurability) {
         this.wingsSpeed = wingsSpeed;
         this.armorSlows = armorSlows;
         this.maxSlowedMultiplier = maxSlowedMultiplier;
         this.canLoopDeLoop = canLoopDeLoop;
         this.requiredFoodAmount = requiredFoodAmount;
+        this.flyingUsesHunger = flyingUsesHunger;
+        this.flyingReducesWingDurability = flyingReducesWingDurability;
     }
 
     @Override
@@ -44,6 +48,16 @@ public class ClientPlayerFallbackValues extends ServerPlayerFallbackValues imple
     @Override
     public float requiredFoodAmount() {
         return requiredFoodAmount;
+    }
+
+    @Override
+    public boolean flyingUsesHunger() {
+        return flyingUsesHunger;
+    }
+
+    @Override
+    public boolean flyingReducesWingDurability() {
+        return flyingReducesWingDurability;
     }
 
     /**

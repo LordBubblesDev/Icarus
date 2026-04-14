@@ -14,7 +14,7 @@ import dev.upcraft.sparkweave.api.event.EntityTickEvents;
 import dev.upcraft.sparkweave.api.event.LifeCycleEvents;
 import dev.upcraft.sparkweave.api.platform.ModContainer;
 import dev.upcraft.sparkweave.api.platform.services.RegistryService;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 
 @AutoService(MainEntryPoint.class)
@@ -23,8 +23,8 @@ public class Icarus implements MainEntryPoint {
     public static final String MODID = "icarus";
     private static final Configurator CONFIGURATOR = new Configurator(MODID);
 
-    public static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, path);
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(MODID, path);
     }
 
     @Override

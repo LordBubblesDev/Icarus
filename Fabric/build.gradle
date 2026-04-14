@@ -4,40 +4,39 @@ plugins {
 
 dependencies {
     minecraft libs.minecraft
-    mappings(loom.layered {
-        it.officialMojangMappings()
-        it.parchment("org.parchmentmc.data:parchment-${libs.versions.parchment.minecraft.get()}:${libs.versions.parchment.mappings.get()}@zip")
-    })
 
-    modImplementation libs.fabric.loader
-    modImplementation (libs.fabric.api) {
+    implementation libs.fabric.loader
+    implementation (libs.fabric.api) {
         exclude group: "net.fabricmc", module: "fabric-loader"
     }
 
-    compileOnly project(":Common")
+    implementation project(":Common")
     compileOnly libs.jetbrains.annotations
 
     compileOnly libs.autoservice.annotations
     annotationProcessor libs.autoservice
 
-    modImplementation libs.sparkweave.fabric
-    modImplementation (libs.resourcefulconfig.fabric) {
+    compileOnly libs.sparkweave
+    compileOnly libs.sparkweave.fabric
+    compileOnly (libs.resourcefulconfig.fabric) {
         exclude group: "net.fabricmc", module: "fabric-loader"
     }
-    modImplementation libs.commonnetworking.fabric
+    compileOnly libs.commonnetworking.fabric
 
-    modImplementation libs.trinkets.fabric
-    modImplementation libs.bundles.cca.fabric
+    compileOnly libs.trinkets.fabric
+    runtimeOnly libs.trinkets.fabric
+    compileOnly libs.bundles.cca.fabric
+    runtimeOnly libs.bundles.cca.fabric
 
-    modCompileOnly libs.modmenu.fabric
-    modLocalRuntime libs.modmenu.fabric
+    compileOnly libs.modmenu.fabric
+//    runtimeOnly libs.modmenu.fabric
 
-    modCompileOnly libs.figura.fabric
-//    modLocalRuntime libs.figura.fabric
+    compileOnly libs.figura.fabric
+//    runtimeOnly libs.figura.fabric
 //    localRuntime libs.bundles.figura.runtime
 
-    modCompileOnly variantOf(libs.emi.fabric) { classifier 'api' }
-    modLocalRuntime libs.emi.fabric
+    compileOnly variantOf(libs.emi.fabric) { classifier 'api' }
+//    runtimeOnly libs.emi.fabric
 }
 
 loom {
@@ -83,18 +82,13 @@ loom {
     }
 }
 
-tasks.named("compileJava", JavaCompile) {
-    source(project(":Common").sourceSets.main.allJava)
-}
-
-tasks.named("javadoc", Javadoc) {
-    source(project(":Common").sourceSets.main.allJava)
-}
-
-tasks.named("sourcesJar", Jar) {
-    from(project(":Common").sourceSets.main.allSource)
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from project(":Common").sourceSets.main.output
 }
 
 processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from project(":Common").sourceSets.main.resources
 }
+

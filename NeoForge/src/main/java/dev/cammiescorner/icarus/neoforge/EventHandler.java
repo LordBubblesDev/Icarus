@@ -3,7 +3,7 @@ package dev.cammiescorner.icarus.neoforge;
 import com.illusivesoulworks.caelus.api.CaelusApi;
 import dev.cammiescorner.icarus.Icarus;
 import dev.cammiescorner.icarus.util.IcarusHelper;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -14,7 +14,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 @EventBusSubscriber(modid = Icarus.MODID)
 public class EventHandler {
 
-    public static final ResourceLocation WINGS_FLIGHT_MODIFIER_ID = Icarus.id("wings");
+    public static final Identifier WINGS_FLIGHT_MODIFIER_ID = Icarus.id("wings");
     public static final AttributeModifier WINGS_FLIGHT = new AttributeModifier(WINGS_FLIGHT_MODIFIER_ID, 1.0D, AttributeModifier.Operation.ADD_VALUE);
 
     @SubscribeEvent

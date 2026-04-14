@@ -18,6 +18,7 @@ plugins {
 
 rootProject.name = 'Icarus'
 include 'Common', 'Fabric', 'NeoForge'
+includeBuild('Sparkweave')
 
 def ENV = System.getenv()
 

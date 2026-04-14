@@ -8,9 +8,9 @@ package dev.cammiescorner.icarus.client.models;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 
-public class FlandresWingsModel<T extends LivingEntity> extends WingEntityModel<T> {
+public class FlandresWingsModel extends WingEntityModel {
 	private final ModelPart leftWing01;
 	private final ModelPart leftWing02;
 	private final ModelPart leftWing03;
@@ -540,11 +540,11 @@ public class FlandresWingsModel<T extends LivingEntity> extends WingEntityModel<
 	}
 
 	@Override
-	public void setupAnim(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-		super.setupAnim(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
-		if(state == State.IDLE || state == State.CROUCHING)
+	public void setupAnim(HumanoidRenderState renderState) {
+		super.setupAnim(renderState);
+		if(this.state == State.IDLE || this.state == State.CROUCHING)
 			leftWing03.xRot = (float) Math.toRadians(-50);
-		if(state == State.FLYING)
+		if(this.state == State.FLYING)
 			leftWing03.xRot = (float) Math.toRadians(45);
 		rightWing03.xRot = leftWing03.xRot;
 	}

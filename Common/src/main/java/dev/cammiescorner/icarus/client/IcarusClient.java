@@ -27,6 +27,7 @@ import java.util.function.Predicate;
 public class IcarusClient implements ClientEntryPoint {
 
     private static final List<Predicate<LivingEntity>> renderPredicates = new ArrayList<>();
+    private static boolean forwardLockEnabled = false;
 
     @Override
     public void onInitializeClient(ModContainer mod) {
@@ -42,7 +43,7 @@ public class IcarusClient implements ClientEntryPoint {
     }
 
     public static boolean onPlayerTick(AbstractClientPlayer player, Level level) {
-        if (player.isFallFlying() && IcarusHelper.hasWings(player) && player.zza > 0) {
+        if (player.isFallFlying() && IcarusHelper.hasWings(player) && hasForwardFlightInput(player)) {
             var cfg = IcarusHelper.getConfigValues(player);
             var rotation = player.getLookAngle();
             var velocity = player.getDeltaMovement();
@@ -61,6 +62,21 @@ public class IcarusClient implements ClientEntryPoint {
         }
 
         return false;
+    }
+
+    public static boolean hasForwardFlightInput(LivingEntity entity) {
+        if (entity instanceof AbstractClientPlayer player) {
+            return player.zza > 0 || (forwardLockEnabled && player instanceof LocalPlayer);
+        }
+        return false;
+    }
+
+    public static boolean isForwardLockEnabled() {
+        return forwardLockEnabled;
+    }
+
+    public static void setForwardLockEnabled(boolean enabled) {
+        forwardLockEnabled = enabled;
     }
 
     @ApiStatus.Internal
@@ -86,7 +102,7 @@ public class IcarusClient implements ClientEntryPoint {
 
     public static void sendActionbarMessage(Player player, Component message) {
         if (player instanceof LocalPlayer localPlayer) {
-            localPlayer.displayClientMessage(message, true);
+            localPlayer.sendSystemMessage(message);
         }
     }
 }

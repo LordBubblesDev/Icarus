@@ -36,4 +36,12 @@ public interface IcarusPlayerValues {
     default float requiredFoodAmount() {
         return IcarusConfig.requiredFoodAmount;
     }
+
+    default boolean flyingUsesHunger() {
+        return true;
+    }
+
+    default boolean flyingReducesWingDurability() {
+        return true;
+    }
 }

@@ -30,8 +30,8 @@ public class IcarusFiguraModelPartsPlugin implements FiguraVanillaPart {
     @Override
     public Collection<Pair<String, Pair<Function<EntityModel<?>, ModelPart>, ParentType>>> getPartsWithParent() {
         return List.of(
-                new Pair<>("right_wing", new Pair<>(model -> model instanceof WingEntityModel<?> wingModel ? wingModel.rightWing : null, ParentType.RightElytraPivot)),
-                new Pair<>("left_wing", new Pair<>(model -> model instanceof WingEntityModel<?> wingModel ? wingModel.leftWing : null, ParentType.LeftElytraPivot))
+                new Pair<>("right_wing", new Pair<>(model -> model instanceof WingEntityModel wingModel ? wingModel.rightWing : null, ParentType.RightElytraPivot)),
+                new Pair<>("left_wing", new Pair<>(model -> model instanceof WingEntityModel wingModel ? wingModel.leftWing : null, ParentType.LeftElytraPivot))
         );
     }
 }

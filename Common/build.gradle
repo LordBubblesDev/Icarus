@@ -23,10 +23,6 @@ dependencies {
 }
 
 neoForge {
-	parchment {
-		minecraftVersion = libs.versions.parchment.minecraft.get()
-		mappingsVersion = libs.versions.parchment.mappings.get()
-	}
 }
 
 test {

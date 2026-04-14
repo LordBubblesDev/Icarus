@@ -4,9 +4,7 @@
   "package": "dev.cammiescorner.icarus.fabric.mixin",
   "plugin": "dev.cammiescorner.icarus.IcarusMixinPlugin",
   "compatibilityLevel": "JAVA_${java_version}",
-  "mixins": [
-    "WingItemMixin"
-  ],
+  "mixins": [],
   "client": [
     "client.compat.FiguraCompatWingsLayerMixin"
   ],

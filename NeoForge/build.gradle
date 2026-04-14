@@ -35,11 +35,6 @@ test {
 }
 
 neoForge {
-    parchment {
-        minecraftVersion = libs.versions.parchment.minecraft.get()
-        mappingsVersion = libs.versions.parchment.mappings.get()
-    }
-
     mods {
         "${mod_id}" {
             sourceSet(project(":Common").sourceSets.main)

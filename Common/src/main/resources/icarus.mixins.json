@@ -6,10 +6,10 @@
   "compatibilityLevel": "JAVA_${java_version}",
   "mixins": [
     "EntityMixin",
+    "LivingEntityFallFlyingMixin",
     "PlayerMixin"
   ],
   "client": [
-    "client.CapeLayerMixin",
     "client.MouseHandlerMixin"
   ],
   "injectors": {

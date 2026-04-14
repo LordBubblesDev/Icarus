@@ -1,0 +1,4 @@
+[submodule "Sparkweave"]
+	path = Sparkweave
+	url = https://github.com/LordBubblesDev/Sparkweave
+	branch = 26.1-fabric

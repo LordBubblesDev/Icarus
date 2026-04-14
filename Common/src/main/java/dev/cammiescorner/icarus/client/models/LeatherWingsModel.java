@@ -11,9 +11,9 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 
-public class LeatherWingsModel<T extends LivingEntity> extends WingEntityModel<T> {
+public class LeatherWingsModel extends WingEntityModel {
 	private final ModelPart leftWing01;
 	private final ModelPart leftWing02;
 	private final ModelPart leftWing03;
@@ -168,11 +168,11 @@ public class LeatherWingsModel<T extends LivingEntity> extends WingEntityModel<T
 	}
 
 	@Override
-	public void setupAnim(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-		super.setupAnim(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
-		if(state == State.IDLE || state == State.CROUCHING)
+	public void setupAnim(HumanoidRenderState renderState) {
+		super.setupAnim(renderState);
+		if(this.state == State.IDLE || this.state == State.CROUCHING)
 			leftWing03.xRot = (float) Math.toRadians(-60);
-		if(state == State.FLYING)
+		if(this.state == State.FLYING)
 			leftWing03.xRot = (float) Math.toRadians(-32.5);
 		rightWing03.xRot = leftWing03.xRot;
 	}

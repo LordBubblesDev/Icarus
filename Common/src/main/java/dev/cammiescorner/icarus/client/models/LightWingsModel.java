@@ -11,9 +11,9 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 
-public class LightWingsModel<T extends LivingEntity> extends WingEntityModel<T> {
+public class LightWingsModel extends WingEntityModel {
 	private final ModelPart rWingMain;
 	private final ModelPart rWing01;
 	private final ModelPart rWing02;
@@ -87,7 +87,7 @@ public class LightWingsModel<T extends LivingEntity> extends WingEntityModel<T> 
 	}
 
 	@Override
-	public void setupAnim(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-		super.setupAnim(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
+	public void setupAnim(HumanoidRenderState renderState) {
+		super.setupAnim(renderState);
 	}
 }

@@ -36,6 +36,8 @@ public class IcarusHelper {
 
     @ApiStatus.Internal
     public static IcarusPlayerValues fallbackValues = new ServerPlayerFallbackValues();
+    @ApiStatus.Internal
+    public static Function<LivingEntity, IcarusPlayerValues> configValuesProvider = entity -> fallbackValues;
 
     public static boolean onFallFlyingTick(LivingEntity entity, @Nullable ItemStack wings, boolean tick) {
         IcarusPlayerValues cfg = IcarusHelper.getConfigValues(entity);
@@ -46,7 +48,7 @@ public class IcarusHelper {
             // dimension type -> all levels of a given type
             // some level stems (namely, AE2's spatial storage dimension) may not be registered properly
             // first check the dimension type, then check the level itself; if either one is in the no fly tag, cancel flying and send a message
-            if(level.dimensionTypeRegistration().is(IcarusDimensionTypeTags.NO_FLYING_ALLOWED) || level.registryAccess().registryOrThrow(Registries.LEVEL_STEM).getHolder(Registries.levelToLevelStem(level.dimension())).map(stemHolder -> stemHolder.is(cfg.noFlyingAllowedInLevels())).orElse(false)) {
+            if(level.dimensionTypeRegistration().is(IcarusDimensionTypeTags.NO_FLYING_ALLOWED) || level.registryAccess().lookupOrThrow(Registries.LEVEL_STEM).get(Registries.levelToLevelStem(level.dimension())).map(stemHolder -> stemHolder.is(cfg.noFlyingAllowedInLevels())).orElse(false)) {
                 if (entity instanceof ServerPlayer player) {
                     stopFlying(player);
                     player.sendSystemMessage(Component.translatable("message.icarus.status.no_fly.dimension").withStyle(ChatFormatting.RED), true);
@@ -84,8 +86,8 @@ public class IcarusHelper {
                 return false;
             }
 
-            if ((wings == null || !wings.is(IcarusItemTags.FREE_FLIGHT)) && entity instanceof Player player && !player.isCreative()) {
-                if(player.getFoodData().getFoodLevel() >= cfg.requiredFoodAmount() && player.zza > 0 && level.isClientSide()) {
+            if (cfg.flyingUsesHunger() && (wings == null || !wings.is(IcarusItemTags.FREE_FLIGHT)) && entity instanceof Player player && !player.isCreative()) {
+                if(player.getFoodData().getFoodLevel() >= cfg.requiredFoodAmount() && IcarusClient.hasForwardFlightInput(player) && level.isClientSide()) {
                     ApplyBoostPacket.sendToServer();
                 }
 
@@ -122,7 +124,7 @@ public class IcarusHelper {
     }
 
     public static IcarusPlayerValues getConfigValues(LivingEntity entity) {
-        return fallbackValues;
+        return configValuesProvider.apply(entity);
     }
 
     public static boolean onPlayerTick(ServerPlayer player, Level level) {

@@ -11,10 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WingItem.class)
 public class WingItemMixin extends Item implements Trinket {
-
     private WingItemMixin(Properties properties) {
         super(properties);
-        throw new UnsupportedOperationException();
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))
