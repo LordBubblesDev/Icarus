@@ -2,6 +2,7 @@
 // Generate all required imports
 package dev.cammiescorner.icarus.client.models;
 
+import dev.cammiescorner.icarus.client.IcarusSlowFallRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -31,38 +32,43 @@ public class WingEntityModel extends EntityModel<HumanoidRenderState> {
 
 		return modelData;
 	}
+
+	@Override
 	public void setupAnim(HumanoidRenderState renderState) {
 		super.setupAnim(renderState);
-		this.state = State.IDLE;
-		float a = 0.125F;
-		float b = 0.1F;
-		float xRot = renderState.elytraRotX;
-		float zRot = renderState.elytraRotZ;
-		float yOffset = renderState.isCrouching ? 0.0F : -1.0F;
-		float yRot = renderState.elytraRotY;
+		boolean isIcarusSlowFalling = renderState instanceof IcarusSlowFallRenderState slowState && slowState.icarus$isSlowFallingWithWings();
 
-		if(renderState.isFallFlying) {
+		if (renderState.isFallFlying) {
 			this.state = State.FLYING;
-			if(renderState.speedValue > 1.0F) {
+			float a = 0.125F;
+			float b = 0.1F;
+			if (renderState.speedValue > 1.0F) {
 				a = 0.4F;
 				b = 1.0F;
 			}
-		}
-		else if(renderState.isCrouching) {
-			this.state = State.CROUCHING;
-			xRot = 0.7F;
-			yOffset = 0.0F;
-			yRot = 0.09F;
+			// Match ElytraModel: Y offset when crouched; rotations from HumanoidRenderState (flight targets from ElytraAnimationState).
+			float wingY = renderState.isCrouching ? 3.0F : 0.0F;
+			float xRot = renderState.elytraRotX + Mth.sin(renderState.ageInTicks * a) * b;
+			applySymmetricWings(wingY, xRot, renderState.elytraRotZ, renderState.elytraRotY);
+			return;
 		}
 
-		xRot += Mth.sin(renderState.ageInTicks * a) * b;
+		// Ground / slow-fall: same layout as vanilla ElytraModel — driven by elytraRot* + crouch Y.
+		this.state = renderState.isCrouching ? State.CROUCHING : State.IDLE;
+		float wingY = renderState.isCrouching ? 3.0F : 0.0F;
+		float xRot = renderState.elytraRotX;
+		if (isIcarusSlowFalling) {
+			xRot += Mth.sin(renderState.ageInTicks * 0.2F) * 0.5F;
+		}
+		applySymmetricWings(wingY, xRot, renderState.elytraRotZ, renderState.elytraRotY);
+	}
+
+	private void applySymmetricWings(float wingY, float xRot, float zRot, float yRot) {
 		this.leftWing.x = 7.0F;
-		this.leftWing.y = yOffset;
-
+		this.leftWing.y = wingY;
 		this.leftWing.xRot = xRot;
 		this.leftWing.zRot = zRot;
 		this.leftWing.yRot = yRot;
-
 		this.rightWing.x = -this.leftWing.x;
 		this.rightWing.yRot = -this.leftWing.yRot;
 		this.rightWing.y = this.leftWing.y;
