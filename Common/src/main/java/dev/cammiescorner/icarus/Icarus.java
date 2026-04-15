@@ -10,12 +10,10 @@ import dev.cammiescorner.icarus.network.s2c.SyncConfigValuesPacket;
 import dev.cammiescorner.icarus.util.IcarusHelper;
 import dev.cammiescorner.icarus.util.ServerPlayerFallbackValues;
 import dev.upcraft.sparkweave.api.entrypoint.MainEntryPoint;
-import dev.upcraft.sparkweave.api.event.EntityTickEvents;
 import dev.upcraft.sparkweave.api.event.LifeCycleEvents;
 import dev.upcraft.sparkweave.api.platform.ModContainer;
 import dev.upcraft.sparkweave.api.platform.services.RegistryService;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.level.ServerPlayer;
 
 @AutoService(MainEntryPoint.class)
 public class Icarus implements MainEntryPoint {
@@ -39,7 +37,6 @@ public class Icarus implements MainEntryPoint {
         Network.registerPacket(ApplyBoostPacket.TYPE, ApplyBoostPacket.class, ApplyBoostPacket.STREAM_CODEC, ApplyBoostPacket::handle);
 
         LifeCycleEvents.SERVER_STARTING.register(server -> IcarusHelper.fallbackValues = new ServerPlayerFallbackValues());
-        EntityTickEvents.startTick(ServerPlayer.class).register(IcarusHelper::onPlayerTick);
 
         var registryService = RegistryService.get();
         IcarusItems.ITEMS.accept(registryService);

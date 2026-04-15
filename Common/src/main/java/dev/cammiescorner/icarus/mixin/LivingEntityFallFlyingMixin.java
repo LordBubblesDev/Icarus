@@ -4,6 +4,7 @@ import dev.cammiescorner.icarus.util.IcarusHelper;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import dev.cammiescorner.icarus.item.WingItem;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,8 +23,18 @@ public abstract class LivingEntityFallFlyingMixin {
             return;
         }
 
-        // If wings are not in chest slot (e.g. Trinkets cape slot), handle SHIFT stop ourselves.
-        if (!(entity.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof WingItem) && entity.isShiftKeyDown()) {
+        if (!entity.isShiftKeyDown()) {
+            return;
+        }
+
+        if (IcarusHelper.getConfigValues(entity).canSlowFall() && entity instanceof Player player) {
+            IcarusHelper.stopFlying(player);
+            ci.cancel();
+            return;
+        }
+
+        // If wings are not in chest slot (e.g. Trinkets cape slot), vanilla does not apply SHIFT stop.
+        if (!(entity.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof WingItem)) {
             entity.stopFallFlying();
             ci.cancel();
         }

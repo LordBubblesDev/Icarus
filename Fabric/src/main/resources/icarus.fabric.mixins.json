@@ -5,9 +5,11 @@
   "plugin": "dev.cammiescorner.icarus.IcarusMixinPlugin",
   "compatibilityLevel": "JAVA_${java_version}",
   "mixins": [
+    "ParsedConfigInvoker",
     "ParsedConfigSaveMixin"
   ],
   "client": [
+    "client.NumberOptionWidgetDecimalMixin",
     "client.compat.FiguraCompatWingsLayerMixin"
   ],
   "injectors": {

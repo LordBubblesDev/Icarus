@@ -87,6 +87,7 @@
   "config.icarus.can_loop_de_loop_client": "Kannst du Loopings machen?",
   "config.icarus.armor_slows": "Verlangsamt Rüstung den Spieler?",
   "config.icarus.can_slow_fall": "Können Spieler langsam fallen während Sie sich beim Fliegen ducken?",
+  "config.icarus.slow_fall_descent_per_tick": "Abwärtsgeschwindigkeit beim langsamen Fallen (Blöcke pro Tick).",
   "config.icarus.max_slowed_multiplier": "Maximal Multiplikator für Rüstungsverlangsamung.",
   "config.icarus.wings_speed": "Wie schnell können Flügel fliegen.",
   "config.icarus.flying_reduces_wing_durability": "Ob Fliegen die Haltbarkeit der Flügel verringert.",

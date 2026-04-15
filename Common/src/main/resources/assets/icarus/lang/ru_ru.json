@@ -95,6 +95,7 @@
   "config.icarus.can_loop_de_loop_client": "Можете ли вы сделать петлю-де-петлю?",
   "config.icarus.armor_slows": "Броня замедляет игрока?",
   "config.icarus.can_slow_fall": "Может ли игрок медленно падать, пробираясь во время полета?",
+  "config.icarus.slow_fall_descent_per_tick": "Скорость падения при медленном падении (блоков за тик).",
   "config.icarus.max_slowed_multiplier": "Максимальный множитель брони, который может вас замедлить",
   "config.icarus.wings_speed": "Как быстро могут летать крылья",
   "config.icarus.flying_reduces_wing_durability": "Снижает ли полёт прочность крыльев.",

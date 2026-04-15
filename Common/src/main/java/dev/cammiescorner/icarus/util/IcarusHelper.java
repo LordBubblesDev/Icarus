@@ -9,8 +9,10 @@ import dev.cammiescorner.icarus.init.IcarusStatusEffects;
 import dev.cammiescorner.icarus.item.WingItem;
 import dev.cammiescorner.icarus.network.c2s.ApplyBoostPacket;
 import dev.cammiescorner.icarus.network.s2c.SyncConfigValuesPacket;
+import dev.cammiescorner.icarus.IcarusConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.util.Mth;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -127,24 +129,33 @@ public class IcarusHelper {
         return configValuesProvider.apply(entity);
     }
 
-    public static boolean onPlayerTick(ServerPlayer player, Level level) {
-        if (((SlowFallingEntity) player).icarus$isSlowFalling()) {
-            player.fallDistance = 0F;
-
-            if (player.onGround() || player.isInWater()) {
-                ((SlowFallingEntity) player).icarus$setSlowFalling(false);
-            } else {
-                var move = player.getDeltaMovement();
-                player.setDeltaMovement(move.x(), -0.4, move.z());
-            }
+    /** Called from {@code tick} TAIL mixins on server/client player (after movement). */
+    public static void tickIcarusSlowFall(Player player) {
+        if (!((SlowFallingEntity) player).icarus$isSlowFalling()) {
+            return;
         }
+        player.fallDistance = 0F;
 
-        return false;
+        if (player.onGround() || player.isInWater()) {
+            ((SlowFallingEntity) player).icarus$setSlowFalling(false);
+        } else {
+            var move = player.getDeltaMovement();
+            float d = Mth.clamp(IcarusConfig.slowFallDescentPerTick, 0.02F, 2.0F);
+            player.setDeltaMovement(move.x(), -d, move.z());
+        }
     }
 
     public static void stopFlying(Player player) {
         ((SlowFallingEntity) player).icarus$setSlowFalling(true);
+        player.fallDistance = 0F;
+        var move = player.getDeltaMovement();
+        float d = Mth.clamp(IcarusConfig.slowFallDescentPerTick, 0.02F, 2.0F);
+        player.setDeltaMovement(move.x(), Math.max(move.y(), -d), move.z());
+        applyUpsideDownLoopCameraStabilization(player);
+        player.stopFallFlying();
+    }
 
+    private static void applyUpsideDownLoopCameraStabilization(Player player) {
         if (player.getXRot() < -90 || player.getXRot() > 90) {
             float offset = (player.getXRot() < -90 ? player.getXRot() + 180 : player.getXRot() - 180) * 2;
             player.setXRot((player.getXRot() < -90 ? 180 + offset : -180 - offset) + player.getXRot());

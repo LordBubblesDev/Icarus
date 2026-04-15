@@ -94,6 +94,7 @@
   "config.icarus.can_loop_de_loop_client": "Taklalar atabilir misin?",
   "config.icarus.armor_slows": "Zırh, oyuncuyu yavaşlatır mı?",
   "config.icarus.can_slow_fall": "Oyuncu uçarken Eğilip yavaş düşebilir mi?",
+  "config.icarus.slow_fall_descent_per_tick": "Yavaş düşüşte aşağı hız (tick başına blok).",
   "config.icarus.max_slowed_multiplier": "Maksimum çarpan. Zırh, seni en fazla bu kadar yavaşlatabilir.",
   "config.icarus.wings_speed": "Kanatların ne kadar hızlı uçurabildiği.",
   "config.icarus.flying_reduces_wing_durability": "Uçarken kanat dayanıklılığının azalıp azalmayacağı.",

@@ -40,6 +40,8 @@ public final class IcarusConfig {
     public static boolean armorSlows = true;
     @ConfigEntry(id = "can_slow_fall", translation = "config.icarus.can_slow_fall")
     public static boolean canSlowFall = true;
+    @ConfigEntry(id = "slow_fall_descent_per_tick", translation = "config.icarus.slow_fall_descent_per_tick")
+    public static float slowFallDescentPerTick = 0.60F;
     @ConfigEntry(id = "max_slowed_multiplier", translation = "config.icarus.max_slowed_multiplier")
     public static float maxSlowedMultiplier = 3F;
     @ConfigEntry(id = "wings_speed", translation = "config.icarus.wings_speed")

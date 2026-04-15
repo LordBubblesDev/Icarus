@@ -94,6 +94,7 @@
   "config.icarus.can_loop_de_loop_client": "¿Puedes tú hacer loop-de-loops?",
   "config.icarus.armor_slows": "¿Te ralentiza la armadura?",
   "config.icarus.can_slow_fall": "¿Puede el jugador caer lentamente presionando Agacharse mientras vuela?",
+  "config.icarus.slow_fall_descent_per_tick": "Velocidad de descenso durante la caída lenta (bloques por tick).",
   "config.icarus.max_slowed_multiplier": "Multiplicador máximo por el cual te ralentiza la armadura.",
   "config.icarus.wings_speed": "Cómo de rápido vuelan las alas.",
   "config.icarus.flying_reduces_wing_durability": "Si al volar se consume la durabilidad de las alas.",

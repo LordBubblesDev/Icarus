@@ -94,6 +94,7 @@
   "config.icarus.can_loop_de_loop_client": "Kan jij een loop-de-loops doen?",
   "config.icarus.armor_slows": "Maakt een Harnas de speler trager?",
   "config.icarus.can_slow_fall": "Kan de speler traag vallen door te sluipen terwijl hij vliegt?",
+  "config.icarus.slow_fall_descent_per_tick": "Neerwaartse snelheid tijdens langzaam vallen (blokken per tick).",
   "config.icarus.max_slowed_multiplier": "Maximale vermenigvuldiging een harnas je kan vertragen.",
   "config.icarus.wings_speed": "Hoe snel de vleugels kunnen vliegen.",
   "config.icarus.flying_reduces_wing_durability": "Of vliegen de duurzaamheid van de vleugels vermindert.",

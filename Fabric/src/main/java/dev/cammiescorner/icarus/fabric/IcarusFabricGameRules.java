@@ -32,6 +32,9 @@ public final class IcarusFabricGameRules {
     public static final GameRule<Boolean> CAN_SLOW_FALL = GameRuleBuilder.forBoolean(IcarusConfig.canSlowFall)
         .category(GameRuleCategory.PLAYER)
         .buildAndRegister(Icarus.id("can_slow_fall"));
+    public static final GameRule<Double> SLOW_FALL_DESCENT_PER_TICK = GameRuleBuilder.forDouble(IcarusConfig.slowFallDescentPerTick)
+        .category(GameRuleCategory.PLAYER)
+        .buildAndRegister(Icarus.id("slow_fall_descent_per_tick"));
     public static final GameRule<Double> MAX_SLOWED_MULTIPLIER = GameRuleBuilder.forDouble(IcarusConfig.maxSlowedMultiplier)
         .category(GameRuleCategory.PLAYER)
         .buildAndRegister(Icarus.id("max_slowed_multiplier"));
@@ -102,6 +105,12 @@ public final class IcarusFabricGameRules {
         boolean grSlowFall = rules.get(CAN_SLOW_FALL);
         if (IcarusConfig.canSlowFall != grSlowFall) {
             IcarusConfig.canSlowFall = grSlowFall;
+            changed = true;
+        }
+
+        double grSlowFallDescent = Math.max(0.0, rules.get(SLOW_FALL_DESCENT_PER_TICK));
+        if (speedsDiffer(grSlowFallDescent, IcarusConfig.slowFallDescentPerTick)) {
+            IcarusConfig.slowFallDescentPerTick = (float) grSlowFallDescent;
             changed = true;
         }
 
@@ -198,6 +207,12 @@ public final class IcarusFabricGameRules {
                 rules.set(CAN_SLOW_FALL, desiredSlowFall, server);
             }
 
+            double desiredSlowFallDescent = Math.max(0.0, IcarusConfig.slowFallDescentPerTick);
+            double currentSlowFallDescent = Math.max(0.0, rules.get(SLOW_FALL_DESCENT_PER_TICK));
+            if (speedsDiffer(desiredSlowFallDescent, currentSlowFallDescent)) {
+                rules.set(SLOW_FALL_DESCENT_PER_TICK, desiredSlowFallDescent, server);
+            }
+
             double desiredMaxSlowed = IcarusConfig.maxSlowedMultiplier;
             double currentMaxSlowed = rules.get(MAX_SLOWED_MULTIPLIER);
             if (speedsDiffer(desiredMaxSlowed, currentMaxSlowed)) {
@@ -260,6 +275,7 @@ public final class IcarusFabricGameRules {
         GameRuleEvents.changeCallback(FLYING_USES_HUNGER).register((value, server) -> onGameRuleChanged(server));
         GameRuleEvents.changeCallback(CAN_LOOP_DE_LOOP).register((value, server) -> onGameRuleChanged(server));
         GameRuleEvents.changeCallback(CAN_SLOW_FALL).register((value, server) -> onGameRuleChanged(server));
+        GameRuleEvents.changeCallback(SLOW_FALL_DESCENT_PER_TICK).register((value, server) -> onGameRuleChanged(server));
         GameRuleEvents.changeCallback(MAX_SLOWED_MULTIPLIER).register((value, server) -> onGameRuleChanged(server));
         GameRuleEvents.changeCallback(WINGS_DURABILITY).register((value, server) -> onGameRuleChanged(server));
         GameRuleEvents.changeCallback(EXHAUSTION_AMOUNT).register((value, server) -> onGameRuleChanged(server));
@@ -291,6 +307,10 @@ public final class IcarusFabricGameRules {
 
     public static boolean canSlowFall(ServerLevel level) {
         return level.getGameRules().get(CAN_SLOW_FALL);
+    }
+
+    public static float slowFallDescentPerTick(ServerLevel level) {
+        return (float) Math.max(0.0, level.getGameRules().get(SLOW_FALL_DESCENT_PER_TICK));
     }
 
     public static float maxSlowedMultiplier(ServerLevel level) {
