@@ -59,6 +59,8 @@ public class WingEntityModel extends EntityModel<HumanoidRenderState> {
 		float xRot = renderState.elytraRotX;
 		if (isIcarusSlowFalling) {
 			xRot += Mth.sin(renderState.ageInTicks * 0.2F) * 0.5F;
+		} else {
+			xRot += Mth.sin(renderState.ageInTicks * 0.125F) * 0.1F;
 		}
 		applySymmetricWings(wingY, xRot, renderState.elytraRotZ, renderState.elytraRotY);
 	}
