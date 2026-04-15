@@ -96,6 +96,8 @@
   "config.icarus.can_slow_fall": "Kan de speler traag vallen door te sluipen terwijl hij vliegt?",
   "config.icarus.max_slowed_multiplier": "Maximale vermenigvuldiging een harnas je kan vertragen.",
   "config.icarus.wings_speed": "Hoe snel de vleugels kunnen vliegen.",
+  "config.icarus.flying_reduces_wing_durability": "Of vliegen de duurzaamheid van de vleugels vermindert.",
+  "config.icarus.flying_uses_hunger": "Of vliegen honger verbruikt.",
   "config.icarus.wings_durability": "Hoeveel Levensduur all de vleugels hebben.",
   "config.icarus.exhaustion_amount": "Uitputtingskost om te vliegen.",
   "config.icarus.required_food_amount": "Hoeveel (halve) honger eenheden je nodig hebt om te vliegen.",

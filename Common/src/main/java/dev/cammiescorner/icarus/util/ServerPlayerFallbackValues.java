@@ -49,4 +49,24 @@ public class ServerPlayerFallbackValues implements IcarusPlayerValues {
     public float requiredFoodAmount() {
         return IcarusConfig.requiredFoodAmount;
     }
+
+    @Override
+    public boolean flyingUsesHunger() {
+        return IcarusConfig.flyingUsesHunger;
+    }
+
+    @Override
+    public boolean flyingReducesWingDurability() {
+        return IcarusConfig.flyingReducesWingDurability;
+    }
+
+    @Override
+    public int wingsDurability() {
+        return IcarusConfig.wingsDurability;
+    }
+
+    @Override
+    public float flyingTargetRadius() {
+        return IcarusConfig.flyingTargetRadius;
+    }
 }

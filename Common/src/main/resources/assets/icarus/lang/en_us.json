@@ -96,6 +96,8 @@
   "config.icarus.can_slow_fall": "Can the player slow-fall by Sneaking while flying?",
   "config.icarus.max_slowed_multiplier": "Maximum multiplier armor can slow you by.",
   "config.icarus.wings_speed": "How fast the wings can fly.",
+  "config.icarus.flying_reduces_wing_durability": "Whether flying drains wing durability.",
+  "config.icarus.flying_uses_hunger": "Whether flying consumes hunger.",
   "config.icarus.wings_durability": "How much durability all the wings have.",
   "config.icarus.exhaustion_amount": "Exhaustion cost for flying.",
   "config.icarus.required_food_amount": "How much many (half) hunger bars are required to fly.",

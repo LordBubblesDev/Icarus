@@ -89,6 +89,8 @@
   "config.icarus.can_slow_fall": "Können Spieler langsam fallen während Sie sich beim Fliegen ducken?",
   "config.icarus.max_slowed_multiplier": "Maximal Multiplikator für Rüstungsverlangsamung.",
   "config.icarus.wings_speed": "Wie schnell können Flügel fliegen.",
+  "config.icarus.flying_reduces_wing_durability": "Ob Fliegen die Haltbarkeit der Flügel verringert.",
+  "config.icarus.flying_uses_hunger": "Ob Fliegen Hunger verbraucht.",
   "config.icarus.wings_durability": "Wie viel Haltbarkeit die Flügel haben.",
   "config.icarus.exhaustion_amount": "Erschöpfungs kosten fürs Fliegen.",
   "config.icarus.required_food_amount": "Wie viele (halbe) Hungerbalken, werden fürs Fliegen benötigt.",

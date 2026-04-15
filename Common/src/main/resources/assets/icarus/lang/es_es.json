@@ -96,6 +96,8 @@
   "config.icarus.can_slow_fall": "¿Puede el jugador caer lentamente presionando Agacharse mientras vuela?",
   "config.icarus.max_slowed_multiplier": "Multiplicador máximo por el cual te ralentiza la armadura.",
   "config.icarus.wings_speed": "Cómo de rápido vuelan las alas.",
+  "config.icarus.flying_reduces_wing_durability": "Si al volar se consume la durabilidad de las alas.",
+  "config.icarus.flying_uses_hunger": "Si al volar se consume hambre.",
   "config.icarus.wings_durability": "Cuánta durabilidad tienen todas las alas.",
   "config.icarus.exhaustion_amount": "Coste de cansancio por volar.",
   "config.icarus.required_food_amount": "Cuántos (medio) muslitos de hambre hacen falta para volar.",

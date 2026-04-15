@@ -2,7 +2,6 @@ package dev.cammiescorner.icarus.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.cammiescorner.icarus.IcarusConfig;
 import dev.cammiescorner.icarus.client.ClientPlayerFallbackValues;
 import dev.cammiescorner.icarus.util.IcarusHelper;
 import net.minecraft.util.Mth;
@@ -24,8 +23,10 @@ public abstract class EntityMixin {
     @SuppressWarnings("ConstantValue")
     @ModifyReturnValue(method = "getPickRadius", at = @At("RETURN"))
     private float icarus$targetRadius(float original) {
-        if(((Object) this) instanceof Player player && player.isFallFlying())
-            return Math.max(IcarusConfig.flyingTargetRadius, original * (1 + IcarusConfig.flyingTargetRadius));
+        if(((Object) this) instanceof Player player && player.isFallFlying()) {
+            float r = IcarusHelper.getConfigValues(player).flyingTargetRadius();
+            return Math.max(r, original * (1 + r));
+        }
 
         return original;
     }

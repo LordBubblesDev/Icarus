@@ -96,6 +96,8 @@
   "config.icarus.can_slow_fall": "Oyuncu uçarken Eğilip yavaş düşebilir mi?",
   "config.icarus.max_slowed_multiplier": "Maksimum çarpan. Zırh, seni en fazla bu kadar yavaşlatabilir.",
   "config.icarus.wings_speed": "Kanatların ne kadar hızlı uçurabildiği.",
+  "config.icarus.flying_reduces_wing_durability": "Uçarken kanat dayanıklılığının azalıp azalmayacağı.",
+  "config.icarus.flying_uses_hunger": "Uçarken açlık tüketilip tüketilmeyeceği.",
   "config.icarus.wings_durability": "Tüm kanatların ne kadar dayanıklılığı olduğu.",
   "config.icarus.exhaustion_amount": "Uçmak için yorgunluk maliyeti.",
   "config.icarus.required_food_amount": "Uçmak için ne kadar (yarım) açlık çubuğu gerekli olduğu.",

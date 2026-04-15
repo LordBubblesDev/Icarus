@@ -1,11 +1,10 @@
 package dev.cammiescorner.icarus.client;
 
 import dev.cammiescorner.icarus.api.IcarusPlayerValues;
-import dev.cammiescorner.icarus.util.ServerPlayerFallbackValues;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.LivingEntity;
 
-public class ClientPlayerFallbackValues extends ServerPlayerFallbackValues implements IcarusPlayerValues {
+public class ClientPlayerFallbackValues implements IcarusPlayerValues {
 
     private final float wingsSpeed;
     private final boolean armorSlows;
@@ -14,15 +13,30 @@ public class ClientPlayerFallbackValues extends ServerPlayerFallbackValues imple
     private final float requiredFoodAmount;
     private final boolean flyingUsesHunger;
     private final boolean flyingReducesWingDurability;
+    private final boolean canSlowFall;
+    private final float exhaustionAmount;
+    private final boolean maxHeightEnabled;
+    private final int maxHeightAboveWorld;
+    private final int wingsDurability;
+    private final float flyingTargetRadius;
 
-    public ClientPlayerFallbackValues(float wingsSpeed, float maxSlowedMultiplier, boolean armorSlows, boolean canLoopDeLoop, float requiredFoodAmount, boolean flyingUsesHunger, boolean flyingReducesWingDurability) {
+    public ClientPlayerFallbackValues(float wingsSpeed, float maxSlowedMultiplier, boolean armorSlows, boolean canLoopDeLoop,
+                                      float requiredFoodAmount, boolean flyingUsesHunger, boolean flyingReducesWingDurability,
+                                      boolean canSlowFall, float exhaustionAmount, boolean maxHeightEnabled,
+                                      int maxHeightAboveWorld, int wingsDurability, float flyingTargetRadius) {
         this.wingsSpeed = wingsSpeed;
-        this.armorSlows = armorSlows;
         this.maxSlowedMultiplier = maxSlowedMultiplier;
+        this.armorSlows = armorSlows;
         this.canLoopDeLoop = canLoopDeLoop;
         this.requiredFoodAmount = requiredFoodAmount;
         this.flyingUsesHunger = flyingUsesHunger;
         this.flyingReducesWingDurability = flyingReducesWingDurability;
+        this.canSlowFall = canSlowFall;
+        this.exhaustionAmount = exhaustionAmount;
+        this.maxHeightEnabled = maxHeightEnabled;
+        this.maxHeightAboveWorld = maxHeightAboveWorld;
+        this.wingsDurability = wingsDurability;
+        this.flyingTargetRadius = flyingTargetRadius;
     }
 
     @Override
@@ -46,6 +60,26 @@ public class ClientPlayerFallbackValues extends ServerPlayerFallbackValues imple
     }
 
     @Override
+    public boolean canSlowFall() {
+        return canSlowFall;
+    }
+
+    @Override
+    public float exhaustionAmount() {
+        return exhaustionAmount;
+    }
+
+    @Override
+    public int maxHeightAboveWorld() {
+        return maxHeightAboveWorld;
+    }
+
+    @Override
+    public boolean maxHeightEnabled() {
+        return maxHeightEnabled;
+    }
+
+    @Override
     public float requiredFoodAmount() {
         return requiredFoodAmount;
     }
@@ -58,6 +92,16 @@ public class ClientPlayerFallbackValues extends ServerPlayerFallbackValues imple
     @Override
     public boolean flyingReducesWingDurability() {
         return flyingReducesWingDurability;
+    }
+
+    @Override
+    public int wingsDurability() {
+        return wingsDurability;
+    }
+
+    @Override
+    public float flyingTargetRadius() {
+        return flyingTargetRadius;
     }
 
     /**

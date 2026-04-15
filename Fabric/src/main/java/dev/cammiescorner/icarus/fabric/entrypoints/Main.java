@@ -3,12 +3,14 @@ package dev.cammiescorner.icarus.fabric.entrypoints;
 import dev.cammiescorner.icarus.Icarus;
 import dev.cammiescorner.icarus.api.IcarusPlayerValues;
 import dev.cammiescorner.icarus.fabric.IcarusFabricGameRules;
+import dev.cammiescorner.icarus.fabric.IcarusFabricServerHolder;
 import dev.cammiescorner.icarus.init.IcarusItems;
 import dev.cammiescorner.icarus.item.WingItem;
 import dev.cammiescorner.icarus.util.IcarusHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.entity.event.v1.EntityElytraEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -32,6 +34,11 @@ public class Main implements ModInitializer {
     @Override
     public void onInitialize() {
         IcarusFabricGameRules.init();
+        ServerLifecycleEvents.SERVER_STARTING.register(IcarusFabricServerHolder::set);
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> IcarusFabricServerHolder.clear());
+        ServerLifecycleEvents.SERVER_STARTED.register(server ->
+            IcarusFabricGameRules.syncConfigFileFromGameRules(server.overworld())
+        );
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> IcarusHelper.onServerPlayerJoin(handler.getPlayer()));
         IcarusHelper.configValuesProvider = entity -> {
             if (entity.level().isClientSide()) {
@@ -49,6 +56,9 @@ public class Main implements ModInitializer {
 
                 @Override
                 public float maxSlowedMultiplier() {
+                    if (entity.level() instanceof ServerLevel serverLevel) {
+                        return IcarusFabricGameRules.maxSlowedMultiplier(serverLevel);
+                    }
                     return base.maxSlowedMultiplier();
                 }
 
@@ -62,31 +72,49 @@ public class Main implements ModInitializer {
 
                 @Override
                 public boolean canLoopDeLoop() {
+                    if (entity.level() instanceof ServerLevel serverLevel) {
+                        return IcarusFabricGameRules.canLoopDeLoop(serverLevel);
+                    }
                     return base.canLoopDeLoop();
                 }
 
                 @Override
                 public boolean canSlowFall() {
+                    if (entity.level() instanceof ServerLevel serverLevel) {
+                        return IcarusFabricGameRules.canSlowFall(serverLevel);
+                    }
                     return base.canSlowFall();
                 }
 
                 @Override
                 public float exhaustionAmount() {
+                    if (entity.level() instanceof ServerLevel serverLevel) {
+                        return IcarusFabricGameRules.exhaustionAmount(serverLevel);
+                    }
                     return base.exhaustionAmount();
                 }
 
                 @Override
                 public int maxHeightAboveWorld() {
+                    if (entity.level() instanceof ServerLevel serverLevel) {
+                        return IcarusFabricGameRules.maxHeightAboveWorld(serverLevel);
+                    }
                     return base.maxHeightAboveWorld();
                 }
 
                 @Override
                 public boolean maxHeightEnabled() {
+                    if (entity.level() instanceof ServerLevel serverLevel) {
+                        return IcarusFabricGameRules.maxHeightEnabled(serverLevel);
+                    }
                     return base.maxHeightEnabled();
                 }
 
                 @Override
                 public float requiredFoodAmount() {
+                    if (entity.level() instanceof ServerLevel serverLevel) {
+                        return IcarusFabricGameRules.requiredFoodAmount(serverLevel);
+                    }
                     return base.requiredFoodAmount();
                 }
 
@@ -104,6 +132,22 @@ public class Main implements ModInitializer {
                         return IcarusFabricGameRules.flyingReducesWingDurability(serverLevel);
                     }
                     return base.flyingReducesWingDurability();
+                }
+
+                @Override
+                public int wingsDurability() {
+                    if (entity.level() instanceof ServerLevel serverLevel) {
+                        return IcarusFabricGameRules.wingsDurability(serverLevel);
+                    }
+                    return base.wingsDurability();
+                }
+
+                @Override
+                public float flyingTargetRadius() {
+                    if (entity.level() instanceof ServerLevel serverLevel) {
+                        return IcarusFabricGameRules.flyingTargetRadius(serverLevel);
+                    }
+                    return base.flyingTargetRadius();
                 }
             };
         };

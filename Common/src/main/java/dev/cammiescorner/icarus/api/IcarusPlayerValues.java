@@ -44,4 +44,12 @@ public interface IcarusPlayerValues {
     default boolean flyingReducesWingDurability() {
         return true;
     }
+
+    default int wingsDurability() {
+        return IcarusConfig.wingsDurability;
+    }
+
+    default float flyingTargetRadius() {
+        return IcarusConfig.flyingTargetRadius;
+    }
 }

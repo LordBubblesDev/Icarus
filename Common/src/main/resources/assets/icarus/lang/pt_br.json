@@ -11,6 +11,8 @@
   "config.icarus.required_food_amount": "How much many (half) hunger bars are required to fly.",
   "config.icarus.wings_durability": "Quanta durabilidade todas as asas tem.",
   "config.icarus.wings_speed": "Quão rápido as asas voam.",
+  "config.icarus.flying_reduces_wing_durability": "Se voar consome a durabilidade das asas.",
+  "config.icarus.flying_uses_hunger": "Se voar consome fome.",
   "config_category.icarus.client": "Client Settings",
   "effect.icarus.flightless": "Flightless",
   "item.icarus.black_dragon_wings": "Asas de Dragão Preta",

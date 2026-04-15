@@ -27,6 +27,10 @@ public class Icarus implements MainEntryPoint {
         return Identifier.fromNamespaceAndPath(MODID, path);
     }
 
+    public static void saveIcarusConfigToDisk() {
+        CONFIGURATOR.saveConfig(IcarusConfig.class);
+    }
+
     @Override
     public void onInitialize(ModContainer mod) {
         CONFIGURATOR.register(IcarusConfig.class);

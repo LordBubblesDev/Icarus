@@ -44,6 +44,10 @@ public final class IcarusConfig {
     public static float maxSlowedMultiplier = 3F;
     @ConfigEntry(id = "wings_speed", translation = "config.icarus.wings_speed")
     public static float wingsSpeed = 0.0125F;
+    @ConfigEntry(id = "flying_reduces_wing_durability", translation = "config.icarus.flying_reduces_wing_durability")
+    public static boolean flyingReducesWingDurability = true;
+    @ConfigEntry(id = "flying_uses_hunger", translation = "config.icarus.flying_uses_hunger")
+    public static boolean flyingUsesHunger = true;
     @ConfigEntry(id = "wings_durability", translation = "config.icarus.wings_durability")
     public static int wingsDurability = 0;
     @ConfigEntry(id = "exhaustion_amount", translation = "config.icarus.exhaustion_amount")

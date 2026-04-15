@@ -44,12 +44,12 @@ public class WingItem extends Item {
     }
 
     public boolean isUsable(LivingEntity entity, ItemStack stack) {
-        return IcarusConfig.wingsDurability <= 0 || stack.getDamageValue() < stack.getMaxDamage() - 1;
+        return IcarusHelper.getConfigValues(entity).wingsDurability() <= 0 || stack.getDamageValue() < stack.getMaxDamage() - 1;
     }
 
     public boolean onFlightTick(LivingEntity entity, ItemStack wings, int ticks) {
-        if (IcarusConfig.wingsDurability > 0 && wings.is(IcarusItemTags.MELTS) && !(entity instanceof Player player && player.isCreative())) {
-            var cfg = IcarusHelper.getConfigValues(entity);
+        var cfg = IcarusHelper.getConfigValues(entity);
+        if (cfg.wingsDurability() > 0 && wings.is(IcarusItemTags.MELTS) && !(entity instanceof Player player && player.isCreative())) {
             if (!cfg.flyingReducesWingDurability()) {
                 return this.isUsable(entity, wings);
             }

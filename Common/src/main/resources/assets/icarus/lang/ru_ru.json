@@ -97,6 +97,8 @@
   "config.icarus.can_slow_fall": "Может ли игрок медленно падать, пробираясь во время полета?",
   "config.icarus.max_slowed_multiplier": "Максимальный множитель брони, который может вас замедлить",
   "config.icarus.wings_speed": "Как быстро могут летать крылья",
+  "config.icarus.flying_reduces_wing_durability": "Снижает ли полёт прочность крыльев.",
+  "config.icarus.flying_uses_hunger": "Расходует ли полёт голод.",
   "config.icarus.wings_durability": "Насколько долговечны все крылья",
   "config.icarus.exhaustion_amount": "Стоимость истощения полета",
   "config.icarus.required_food_amount": "Сколько (половин) единиц голода потребуется для полета",
