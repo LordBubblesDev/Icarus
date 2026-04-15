@@ -1,14 +1,11 @@
-{
+﻿{
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "tag": "icarus:feathered_wings"
-    },
-    {
-      "tag": "c:dyes/orange"
-    }
+    "#icarus:feathered_wings",
+    "#c:dyes/orange"
   ],
   "result": {
     "id": "icarus:orange_feathered_wings"
   }
 }
+

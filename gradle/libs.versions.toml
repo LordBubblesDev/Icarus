@@ -38,6 +38,8 @@ caelus = "7.0.1+1.21.1"
 commonnetworking = "1.0.22-26.1"
 # https://modrinth.com/mod/emi/versions
 emi = "1.1.22+1.21.1"
+# https://modrinth.com/mod/jei/versions
+jei_fabric = "29.5.0.26"
 # https://modrinth.com/mod/figura/versions
 figura = "0.1.5+1.21.1"
 luaj = "3.0.8-figura"
@@ -91,6 +93,7 @@ caelus_neoforge = { module = "com.illusivesoulworks.caelus:caelus-neoforge", ver
 emi = { module = "dev.emi:emi-xplat-mojmap", version.ref = "emi" }
 emi_neoforge = { module = "dev.emi:emi-neoforge", version.ref = "emi" }
 emi_fabric = { module = "dev.emi:emi-fabric", version.ref = "emi" }
+jei_fabric = { module = "maven.modrinth:u6dRKJwZ", version.ref = "jei_fabric" }
 
 figura = { module = "org.figuramc:figura-common-mojmap", version.ref = "figura" }
 figura_fabric = { module = "org.figuramc:figura-fabric", version.ref = "figura" }

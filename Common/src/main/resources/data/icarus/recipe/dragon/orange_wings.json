@@ -1,14 +1,11 @@
-{
+﻿{
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "tag": "icarus:dragon_wings"
-    },
-    {
-      "tag": "c:dyes/orange"
-    }
+    "#icarus:dragon_wings",
+    "#c:dyes/orange"
   ],
   "result": {
     "id": "icarus:orange_dragon_wings"
   }
 }
+

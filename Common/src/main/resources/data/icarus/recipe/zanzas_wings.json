@@ -1,4 +1,4 @@
-{
+﻿{
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "WWW",
@@ -6,20 +6,13 @@
     "F F"
   ],
   "key": {
-    "E": {
-      "tag": "icarus:wings_base"
-    },
-    "F": {
-      "tag": "c:dusts/glowstone"
-    },
-    "N": {
-      "item": "minecraft:nether_star"
-    },
-    "W": {
-      "item": "minecraft:honeycomb"
-    }
+    "E": "#icarus:wings_base",
+    "F": "#c:dusts/glowstone",
+    "N": "minecraft:nether_star",
+    "W": "minecraft:honeycomb"
   },
   "result": {
     "id": "icarus:zanzas_wings"
   }
 }
+

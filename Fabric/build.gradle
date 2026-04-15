@@ -27,16 +27,12 @@ dependencies {
     runtimeOnly libs.trinkets.fabric
     compileOnly libs.bundles.cca.fabric
     runtimeOnly libs.bundles.cca.fabric
-
     compileOnly libs.modmenu.fabric
-//    runtimeOnly libs.modmenu.fabric
-
     compileOnly libs.figura.fabric
-//    runtimeOnly libs.figura.fabric
-//    localRuntime libs.bundles.figura.runtime
+    compileOnly libs.jei.fabric
 
     compileOnly variantOf(libs.emi.fabric) { classifier 'api' }
-//    runtimeOnly libs.emi.fabric
+
 }
 
 loom {

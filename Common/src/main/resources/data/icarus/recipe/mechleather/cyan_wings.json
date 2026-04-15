@@ -1,14 +1,11 @@
-{
+﻿{
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "tag": "icarus:mechanical_leather_wings"
-    },
-    {
-      "tag": "c:dyes/cyan"
-    }
+    "#icarus:mechanical_leather_wings",
+    "#c:dyes/cyan"
   ],
   "result": {
     "id": "icarus:cyan_mechanical_leather_wings"
   }
 }
+

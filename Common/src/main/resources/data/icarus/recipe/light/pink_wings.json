@@ -1,14 +1,11 @@
-{
+﻿{
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "tag": "icarus:light_wings"
-    },
-    {
-      "tag": "c:dyes/pink"
-    }
+    "#icarus:light_wings",
+    "#c:dyes/pink"
   ],
   "result": {
     "id": "icarus:pink_light_wings"
   }
 }
+

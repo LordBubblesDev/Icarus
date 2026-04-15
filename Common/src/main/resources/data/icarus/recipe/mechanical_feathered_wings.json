@@ -1,4 +1,4 @@
-{
+﻿{
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "WWW",
@@ -6,20 +6,13 @@
     "F F"
   ],
   "key": {
-    "E": {
-      "tag": "icarus:wings_base"
-    },
-    "F": {
-      "tag": "icarus:feathers"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "W": {
-      "item": "minecraft:honeycomb"
-    }
+    "E": "#icarus:wings_base",
+    "F": "#icarus:feathers",
+    "I": "#c:ingots/iron",
+    "W": "minecraft:honeycomb"
   },
   "result": {
     "id": "icarus:white_mechanical_feathered_wings"
   }
 }
+
