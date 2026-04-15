@@ -134,6 +134,12 @@ public class IcarusHelper {
         if (!((SlowFallingEntity) player).icarus$isSlowFalling()) {
             return;
         }
+
+        if (player.isCreative() && player.getAbilities().flying) {
+            ((SlowFallingEntity) player).icarus$setSlowFalling(false);
+            return;
+        }
+
         player.fallDistance = 0F;
 
         if (player.onGround() || player.isInWater()) {
