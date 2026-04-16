@@ -112,6 +112,9 @@
   "message.icarus.status.no_fly.dimension": "Bu boyutta uçmaya izin verilmiyor!",
   "message.icarus.status.no_fly.hunger": "Boş mideyle uçamazsın!",
   "message.icarus.status.no_fly.status_effect": "Şu anda uçamazsın!",
+  "key.icarus.toggle_forward_lock": "İleri Kilidini Değiştir",
+  "key.icarus.toggle_hover_standby": "Süzülme Modunu Değiştir",
+  "key.category.icarus.controls": "Icarus",
 
   "tag.item.c.feathers": "Tüyler",
   "tag.item.c.elytra": "Elitra",

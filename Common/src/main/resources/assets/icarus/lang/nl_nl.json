@@ -112,6 +112,9 @@
   "message.icarus.status.no_fly.dimension": "Vliegen is niet toegestaan in deze dimentie!",
   "message.icarus.status.no_fly.hunger": "Je kan niet vliegen met een lege maag!",
   "message.icarus.status.no_fly.status_effect": "Je kan nu niet vliegen!",
+  "key.icarus.toggle_forward_lock": "Voorwaartse Vergrendeling Omschakelen",
+  "key.icarus.toggle_hover_standby": "Zweefmodus Omschakelen",
+  "key.category.icarus.controls": "Icarus",
 
   "tag.item.c.feathers": "Veren",
   "tag.item.c.elytra": "Elytra",

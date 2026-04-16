@@ -115,6 +115,7 @@
   "key.icarus.toggle_forward_lock": "Toggle Forward Lock",
   "key.icarus.toggle_hover_standby": "Toggle Hover Mode",
   "controls.icarus": "Icarus",
+  "key.category.icarus.controls": "Icarus",
 
   "tag.item.c.feathers": "Feathers",
   "tag.item.c.elytra": "Elytra",

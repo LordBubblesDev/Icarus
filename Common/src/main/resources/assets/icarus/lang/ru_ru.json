@@ -113,6 +113,9 @@
   "message.icarus.status.no_fly.dimension": "В этом измерении летать запрещено!",
   "message.icarus.status.no_fly.hunger": "Нельзя лететь с пустым желудком!",
   "message.icarus.status.no_fly.status_effect": "Вы не можете летать прямо сейчас!",
+  "key.icarus.toggle_forward_lock": "Переключить Фиксацию Вперёд",
+  "key.icarus.toggle_hover_standby": "Переключить Режим Зависания",
+  "key.category.icarus.controls": "Icarus",
 
   "tag.item.c.feathers": "Перья",
   "tag.item.c.elytra": "Элитры",
