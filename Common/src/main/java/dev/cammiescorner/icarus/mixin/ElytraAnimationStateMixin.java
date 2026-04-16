@@ -2,8 +2,8 @@ package dev.cammiescorner.icarus.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.cammiescorner.icarus.api.HoveringEntity;
 import dev.cammiescorner.icarus.api.SlowFallingEntity;
-import dev.cammiescorner.icarus.util.IcarusHelper;
 import net.minecraft.world.entity.ElytraAnimationState;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,8 +23,7 @@ public abstract class ElytraAnimationStateMixin {
         if (original.call(entity)) {
             return true;
         }
-        return entity instanceof SlowFallingEntity slow
-            && slow.icarus$isSlowFalling()
-            && IcarusHelper.hasWings(entity);
+        return (entity instanceof SlowFallingEntity slow && slow.icarus$isSlowFalling())
+            || (entity instanceof HoveringEntity hover && hover.icarus$isHoverStandby());
     }
 }

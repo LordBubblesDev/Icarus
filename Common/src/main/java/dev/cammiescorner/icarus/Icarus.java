@@ -6,7 +6,9 @@ import commonnetwork.api.Network;
 import dev.cammiescorner.icarus.init.IcarusItems;
 import dev.cammiescorner.icarus.init.IcarusStatusEffects;
 import dev.cammiescorner.icarus.network.c2s.ApplyBoostPacket;
+import dev.cammiescorner.icarus.network.c2s.ToggleHoverStandbyPacket;
 import dev.cammiescorner.icarus.network.s2c.SyncConfigValuesPacket;
+import dev.cammiescorner.icarus.network.s2c.SyncHoverStatePacket;
 import dev.cammiescorner.icarus.util.IcarusHelper;
 import dev.cammiescorner.icarus.util.ServerPlayerFallbackValues;
 import dev.upcraft.sparkweave.api.entrypoint.MainEntryPoint;
@@ -34,7 +36,9 @@ public class Icarus implements MainEntryPoint {
         CONFIGURATOR.register(IcarusConfig.class);
 
         Network.registerPacket(SyncConfigValuesPacket.TYPE, SyncConfigValuesPacket.class, SyncConfigValuesPacket.STREAM_CODEC, SyncConfigValuesPacket::handle);
+        Network.registerPacket(SyncHoverStatePacket.TYPE, SyncHoverStatePacket.class, SyncHoverStatePacket.STREAM_CODEC, SyncHoverStatePacket::handle);
         Network.registerPacket(ApplyBoostPacket.TYPE, ApplyBoostPacket.class, ApplyBoostPacket.STREAM_CODEC, ApplyBoostPacket::handle);
+        Network.registerPacket(ToggleHoverStandbyPacket.TYPE, ToggleHoverStandbyPacket.class, ToggleHoverStandbyPacket.STREAM_CODEC, ToggleHoverStandbyPacket::handle);
 
         LifeCycleEvents.SERVER_STARTING.register(server -> IcarusHelper.fallbackValues = new ServerPlayerFallbackValues());
 

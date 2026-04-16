@@ -1,6 +1,7 @@
 package dev.cammiescorner.icarus.util;
 
 import dev.cammiescorner.icarus.api.IcarusPlayerValues;
+import dev.cammiescorner.icarus.api.HoveringEntity;
 import dev.cammiescorner.icarus.api.SlowFallingEntity;
 import dev.cammiescorner.icarus.client.IcarusClient;
 import dev.cammiescorner.icarus.init.IcarusDimensionTypeTags;
@@ -9,6 +10,7 @@ import dev.cammiescorner.icarus.init.IcarusStatusEffects;
 import dev.cammiescorner.icarus.item.WingItem;
 import dev.cammiescorner.icarus.network.c2s.ApplyBoostPacket;
 import dev.cammiescorner.icarus.network.s2c.SyncConfigValuesPacket;
+import dev.cammiescorner.icarus.network.s2c.SyncHoverStatePacket;
 import dev.cammiescorner.icarus.IcarusConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
@@ -131,23 +133,50 @@ public class IcarusHelper {
 
     /** Called from {@code tick} TAIL mixins on server/client player (after movement). */
     public static void tickIcarusSlowFall(Player player) {
-        if (!((SlowFallingEntity) player).icarus$isSlowFalling()) {
+        SlowFallingEntity slow = (SlowFallingEntity) player;
+        HoveringEntity hover = (HoveringEntity) player;
+        boolean slowFalling = slow.icarus$isSlowFalling();
+        boolean hovering = hover.icarus$isHoverStandby();
+        if (!slowFalling && !hovering) {
             return;
         }
 
         if (player.isCreative() && player.getAbilities().flying) {
-            ((SlowFallingEntity) player).icarus$setSlowFalling(false);
+            player.setNoGravity(false);
+            slow.icarus$setSlowFalling(false);
+            setHoverStandby(player, false);
             return;
         }
 
         player.fallDistance = 0F;
+        hover.icarus$setHoverPhase(hover.icarus$getHoverPhase() + 0.2F);
+
+        if (hovering && player.isShiftKeyDown()) {
+            player.setNoGravity(false);
+            setHoverStandby(player, false);
+            slow.icarus$setSlowFalling(true);
+            return;
+        }
 
         if (player.onGround() || player.isInWater()) {
-            ((SlowFallingEntity) player).icarus$setSlowFalling(false);
+            player.setNoGravity(false);
+            slow.icarus$setSlowFalling(false);
+            setHoverStandby(player, false);
         } else {
             var move = player.getDeltaMovement();
-            float d = Mth.clamp(IcarusConfig.slowFallDescentPerTick, 0.02F, 2.0F);
-            player.setDeltaMovement(move.x(), -d, move.z());
+            if (hovering) {
+                player.setNoGravity(true);
+                float phase = hover.icarus$getHoverPhase();
+                double centerY = hover.icarus$getHoverCenterY();
+                double amp = 0.86D;
+                double targetY = centerY + Math.sin(phase) * amp;
+                player.setPos(player.getX(), targetY, player.getZ());
+                player.setDeltaMovement(move.x() * 0.1D, 0.0D, move.z() * 0.1D);
+            } else if (slowFalling) {
+                player.setNoGravity(false);
+                float d = Mth.clamp(IcarusConfig.slowFallDescentPerTick, 0.02F, 2.0F);
+                player.setDeltaMovement(move.x(), -d, move.z());
+            }
         }
     }
 
@@ -171,5 +200,25 @@ public class IcarusHelper {
 
     public static void onServerPlayerJoin(ServerPlayer player) {
         SyncConfigValuesPacket.send(player);
+        if (player.level().getServer() != null) {
+            for (ServerPlayer other : player.level().getServer().getPlayerList().getPlayers()) {
+                SyncHoverStatePacket.send(player, other.getId(), ((HoveringEntity) other).icarus$isHoverStandby());
+            }
+        }
+    }
+
+    public static void setHoverStandby(Player player, boolean enabled) {
+        HoveringEntity hover = (HoveringEntity) player;
+        if (hover.icarus$isHoverStandby() == enabled) {
+            return;
+        }
+        hover.icarus$setHoverStandby(enabled);
+        if (player instanceof ServerPlayer serverPlayer) {
+            if (serverPlayer.level().getServer() != null) {
+                for (ServerPlayer target : serverPlayer.level().getServer().getPlayerList().getPlayers()) {
+                    SyncHoverStatePacket.send(target, player.getId(), enabled);
+                }
+            }
+        }
     }
 }

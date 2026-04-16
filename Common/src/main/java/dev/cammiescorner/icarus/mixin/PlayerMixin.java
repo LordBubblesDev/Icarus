@@ -1,6 +1,7 @@
 package dev.cammiescorner.icarus.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import dev.cammiescorner.icarus.api.HoveringEntity;
 import dev.cammiescorner.icarus.api.SlowFallingEntity;
 import dev.cammiescorner.icarus.util.IcarusHelper;
 import net.minecraft.world.entity.EntityType;
@@ -13,10 +14,16 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(Player.class)
-public abstract class PlayerMixin extends LivingEntity implements SlowFallingEntity {
+public abstract class PlayerMixin extends LivingEntity implements SlowFallingEntity, HoveringEntity {
 
     @Unique
     private boolean icarus$slowFalling;
+    @Unique
+    private boolean icarus$hoverStandby;
+    @Unique
+    private double icarus$hoverCenterY;
+    @Unique
+    private float icarus$hoverPhase;
 
     private PlayerMixin(EntityType<? extends LivingEntity> $$0, Level $$1) {
         super($$0, $$1);
@@ -33,9 +40,39 @@ public abstract class PlayerMixin extends LivingEntity implements SlowFallingEnt
         return icarus$slowFalling;
     }
 
+    @Override
+    public boolean icarus$isHoverStandby() {
+        return icarus$hoverStandby;
+    }
+
+    @Override
+    public void icarus$setHoverStandby(boolean value) {
+        icarus$hoverStandby = value;
+    }
+
+    @Override
+    public double icarus$getHoverCenterY() {
+        return icarus$hoverCenterY;
+    }
+
+    @Override
+    public void icarus$setHoverCenterY(double value) {
+        icarus$hoverCenterY = value;
+    }
+
+    @Override
+    public float icarus$getHoverPhase() {
+        return icarus$hoverPhase;
+    }
+
+    @Override
+    public void icarus$setHoverPhase(float value) {
+        icarus$hoverPhase = value;
+    }
+
     @ModifyReturnValue(method = "getDesiredPose", at = @At("RETURN"))
     private Pose icarus$forceCrouchPoseWhileSlowFalling(Pose original) {
-        if (original == Pose.STANDING && icarus$slowFalling && IcarusHelper.hasWings((Player) (Object) this)) {
+        if (original == Pose.STANDING && (icarus$slowFalling || icarus$hoverStandby) && IcarusHelper.hasWings((Player) (Object) this)) {
             return Pose.CROUCHING;
         }
         return original;

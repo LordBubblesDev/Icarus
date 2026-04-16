@@ -1,8 +1,8 @@
 package dev.cammiescorner.icarus.mixin.client;
 
+import dev.cammiescorner.icarus.api.HoveringEntity;
 import dev.cammiescorner.icarus.api.SlowFallingEntity;
 import dev.cammiescorner.icarus.client.IcarusSlowFallRenderState;
-import dev.cammiescorner.icarus.util.IcarusHelper;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
@@ -18,10 +18,20 @@ public abstract class AvatarRendererSlowFallMixin {
     private void icarus$markSlowFallWingAnimation(Avatar entity, AvatarRenderState state, float partialTick, CallbackInfo ci) {
         boolean slowFallingWithWings = entity instanceof AbstractClientPlayer
             && entity instanceof SlowFallingEntity slow
-            && slow.icarus$isSlowFalling()
-            && IcarusHelper.hasWings(entity);
-        ((IcarusSlowFallRenderState) state).icarus$setSlowFallingWithWings(slowFallingWithWings);
-        if (slowFallingWithWings) {
+            && slow.icarus$isSlowFalling();
+        boolean hoveringWithWings = entity instanceof AbstractClientPlayer
+            && entity instanceof HoveringEntity hover
+            && hover.icarus$isHoverStandby();
+
+        IcarusSlowFallRenderState icarusState = (IcarusSlowFallRenderState) state;
+        icarusState.icarus$setSlowFallingWithWings(slowFallingWithWings);
+        icarusState.icarus$setHoveringWithWings(hoveringWithWings);
+        if (entity instanceof HoveringEntity hover) {
+            icarusState.icarus$setHoverPhase(hover.icarus$getHoverPhase());
+        } else {
+            icarusState.icarus$setHoverPhase(0.0F);
+        }
+        if (slowFallingWithWings || hoveringWithWings) {
             state.isCrouching = true;
         }
     }

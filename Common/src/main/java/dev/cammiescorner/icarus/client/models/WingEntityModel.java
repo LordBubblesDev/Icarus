@@ -37,6 +37,7 @@ public class WingEntityModel extends EntityModel<HumanoidRenderState> {
 	public void setupAnim(HumanoidRenderState renderState) {
 		super.setupAnim(renderState);
 		boolean isIcarusSlowFalling = renderState instanceof IcarusSlowFallRenderState slowState && slowState.icarus$isSlowFallingWithWings();
+		boolean isIcarusHovering = renderState instanceof IcarusSlowFallRenderState slowState && slowState.icarus$isHoveringWithWings();
 
 		if (renderState.isFallFlying) {
 			this.state = State.FLYING;
@@ -57,8 +58,13 @@ public class WingEntityModel extends EntityModel<HumanoidRenderState> {
 		this.state = renderState.isCrouching ? State.CROUCHING : State.IDLE;
 		float wingY = renderState.isCrouching ? 3.0F : 0.0F;
 		float xRot = renderState.elytraRotX;
-		if (isIcarusSlowFalling) {
-			xRot += Mth.sin(renderState.ageInTicks * 0.2F) * 0.5F;
+		if (isIcarusHovering) {
+			float phase = renderState instanceof IcarusSlowFallRenderState hoverState ? hoverState.icarus$getHoverPhase() : renderState.ageInTicks * 0.2F;
+			// Tie wing stroke to hover velocity phase so "flap down" consistently matches upward movement.
+			xRot += -Mth.cos(phase) * 0.5F;
+		} else if (isIcarusSlowFalling) {
+			float phase = renderState instanceof IcarusSlowFallRenderState hoverState ? hoverState.icarus$getHoverPhase() : renderState.ageInTicks * 0.2F;
+			xRot += -Mth.cos(phase) * 0.5F;
 		} else {
 			xRot += Mth.sin(renderState.ageInTicks * 0.125F) * 0.1F;
 		}

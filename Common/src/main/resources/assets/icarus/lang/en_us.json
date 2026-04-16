@@ -112,6 +112,9 @@
   "message.icarus.status.no_fly.dimension": "Flying is not allowed in this dimension!",
   "message.icarus.status.no_fly.hunger": "You cannot fly with an empty stomach!",
   "message.icarus.status.no_fly.status_effect": "You cannot fly right now!",
+  "key.icarus.toggle_forward_lock": "Toggle Forward Lock",
+  "key.icarus.toggle_hover_standby": "Toggle Hover Mode",
+  "controls.icarus": "Icarus",
 
   "tag.item.c.feathers": "Feathers",
   "tag.item.c.elytra": "Elytra",
