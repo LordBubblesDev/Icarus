@@ -20,7 +20,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -135,9 +134,22 @@ public class IcarusHelper {
         return configValuesProvider.apply(entity);
     }
 
-    /** World-space Y for hover bob; same formula must run on the server and on the client for the local player. */
+    /**
+     * Bob phase in radians-ish units passed to {@link Math#sin(double)}. Uses world {@link net.minecraft.world.level.Level#getGameTime()}
+     * minus a synced anchor so all clients match the server (entity {@code tickCount} does not).
+     */
+    public static float hoverBobPhase(LivingEntity entity, HoveringEntity hover) {
+        long anchor = hover.icarus$getHoverBobAnchorGameTime();
+        if (anchor < 0L) {
+            return entity.tickCount * HOVER_BOB_PHASE_PER_TICK;
+        }
+        long delta = entity.level().getGameTime() - anchor;
+        return delta * HOVER_BOB_PHASE_PER_TICK;
+    }
+
+    /** World-space Y for hover bob; same formula on server and local client ({@link #applyHoverPhysics}). */
     public static double hoverBobTargetY(LivingEntity entity, HoveringEntity hover) {
-        float phase = entity.tickCount * HOVER_BOB_PHASE_PER_TICK;
+        double phase = hoverBobPhase(entity, hover);
         return hover.icarus$getHoverCenterY() + Math.sin(phase) * HOVER_BOB_AMPLITUDE_BLOCKS;
     }
 
@@ -223,7 +235,9 @@ public class IcarusHelper {
         SyncConfigValuesPacket.send(player);
         if (player.level().getServer() != null) {
             for (ServerPlayer other : player.level().getServer().getPlayerList().getPlayers()) {
-                SyncHoverStatePacket.send(player, other.getId(), ((HoveringEntity) other).icarus$isHoverStandby());
+                HoveringEntity h = (HoveringEntity) other;
+                boolean on = h.icarus$isHoverStandby();
+                SyncHoverStatePacket.send(player, other.getId(), on, on ? h.icarus$getHoverCenterY() : 0.0D, on ? h.icarus$getHoverBobAnchorGameTime() : -1L);
             }
         }
     }
@@ -236,8 +250,10 @@ public class IcarusHelper {
         hover.icarus$setHoverStandby(enabled);
         if (player instanceof ServerPlayer serverPlayer) {
             if (serverPlayer.level().getServer() != null) {
+                double cy = enabled ? hover.icarus$getHoverCenterY() : 0.0D;
+                long anchor = enabled ? hover.icarus$getHoverBobAnchorGameTime() : -1L;
                 for (ServerPlayer target : serverPlayer.level().getServer().getPlayerList().getPlayers()) {
-                    SyncHoverStatePacket.send(target, player.getId(), enabled);
+                    SyncHoverStatePacket.send(target, player.getId(), enabled, cy, anchor);
                 }
             }
         }

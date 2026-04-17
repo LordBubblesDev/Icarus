@@ -30,7 +30,7 @@ public abstract class AvatarRendererSlowFallMixin {
         icarusState.icarus$setHoveringWithWings(hoveringWithWings);
         if (entity instanceof HoveringEntity hover) {
             if (hover.icarus$isHoverStandby() && entity instanceof LivingEntity le) {
-                icarusState.icarus$setHoverPhase(le.tickCount * IcarusHelper.HOVER_BOB_PHASE_PER_TICK);
+                icarusState.icarus$setHoverPhase(IcarusHelper.hoverBobPhase(le, hover));
             } else {
                 icarusState.icarus$setHoverPhase(hover.icarus$getHoverPhase());
             }

@@ -9,6 +9,11 @@ public interface HoveringEntity {
 
     void icarus$setHoverCenterY(double value);
 
+    /** {@link net.minecraft.world.level.Level#getGameTime()} when hover started; used so all clients share bob phase. */
+    long icarus$getHoverBobAnchorGameTime();
+
+    void icarus$setHoverBobAnchorGameTime(long gameTime);
+
     float icarus$getHoverPhase();
 
     void icarus$setHoverPhase(float value);

@@ -23,6 +23,8 @@ public abstract class PlayerMixin extends LivingEntity implements SlowFallingEnt
     @Unique
     private double icarus$hoverCenterY;
     @Unique
+    private long icarus$hoverBobAnchorGameTime = -1L;
+    @Unique
     private float icarus$hoverPhase;
 
     private PlayerMixin(EntityType<? extends LivingEntity> $$0, Level $$1) {
@@ -48,6 +50,9 @@ public abstract class PlayerMixin extends LivingEntity implements SlowFallingEnt
     @Override
     public void icarus$setHoverStandby(boolean value) {
         icarus$hoverStandby = value;
+        if (!value) {
+            icarus$hoverBobAnchorGameTime = -1L;
+        }
     }
 
     @Override
@@ -58,6 +63,16 @@ public abstract class PlayerMixin extends LivingEntity implements SlowFallingEnt
     @Override
     public void icarus$setHoverCenterY(double value) {
         icarus$hoverCenterY = value;
+    }
+
+    @Override
+    public long icarus$getHoverBobAnchorGameTime() {
+        return icarus$hoverBobAnchorGameTime;
+    }
+
+    @Override
+    public void icarus$setHoverBobAnchorGameTime(long gameTime) {
+        this.icarus$hoverBobAnchorGameTime = gameTime;
     }
 
     @Override

@@ -34,9 +34,10 @@ public record ToggleHoverStandbyPacket(boolean enabled) {
             return;
         }
 
-        IcarusHelper.setHoverStandby(player, ctx.message().enabled());
-        if (ctx.message().enabled()) {
+        boolean enable = ctx.message().enabled();
+        if (enable) {
             hovering.icarus$setHoverCenterY(player.getY());
+            hovering.icarus$setHoverBobAnchorGameTime(player.level().getGameTime());
             player.fallDistance = 0F;
             var move = player.getDeltaMovement();
             double clampedY = Mth.clamp(move.y, -0.08D, 0.08D);
@@ -47,5 +48,6 @@ public record ToggleHoverStandbyPacket(boolean enabled) {
         } else {
             player.setNoGravity(false);
         }
+        IcarusHelper.setHoverStandby(player, enable);
     }
 }

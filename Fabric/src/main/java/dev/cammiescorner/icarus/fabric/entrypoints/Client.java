@@ -70,10 +70,11 @@ public class Client implements ClientModInitializer {
             while (TOGGLE_HOVER_STANDBY.consumeClick()) {
                 if (client.player instanceof HoveringEntity hoveringEntity && (!client.player.onGround() || hoveringEntity.icarus$isHoverStandby())) {
                     boolean enabled = !hoveringEntity.icarus$isHoverStandby();
-                    hoveringEntity.icarus$setHoverStandby(enabled);
                     if (enabled) {
                         hoveringEntity.icarus$setHoverCenterY(client.player.getY());
+                        hoveringEntity.icarus$setHoverBobAnchorGameTime(client.player.level().getGameTime());
                     }
+                    hoveringEntity.icarus$setHoverStandby(enabled);
                     ToggleHoverStandbyPacket.sendToServer(enabled);
                     if (client.gui != null) {
                         client.gui.setOverlayMessage(Component.literal("Icarus Hover Mode: ")
