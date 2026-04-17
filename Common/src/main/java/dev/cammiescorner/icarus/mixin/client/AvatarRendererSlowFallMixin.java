@@ -3,10 +3,12 @@ package dev.cammiescorner.icarus.mixin.client;
 import dev.cammiescorner.icarus.api.HoveringEntity;
 import dev.cammiescorner.icarus.api.SlowFallingEntity;
 import dev.cammiescorner.icarus.client.IcarusSlowFallRenderState;
+import dev.cammiescorner.icarus.util.IcarusHelper;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.world.entity.Avatar;
+import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -27,7 +29,11 @@ public abstract class AvatarRendererSlowFallMixin {
         icarusState.icarus$setSlowFallingWithWings(slowFallingWithWings);
         icarusState.icarus$setHoveringWithWings(hoveringWithWings);
         if (entity instanceof HoveringEntity hover) {
-            icarusState.icarus$setHoverPhase(hover.icarus$getHoverPhase());
+            if (hover.icarus$isHoverStandby() && entity instanceof LivingEntity le) {
+                icarusState.icarus$setHoverPhase(le.tickCount * IcarusHelper.HOVER_BOB_PHASE_PER_TICK);
+            } else {
+                icarusState.icarus$setHoverPhase(hover.icarus$getHoverPhase());
+            }
         } else {
             icarusState.icarus$setHoverPhase(0.0F);
         }

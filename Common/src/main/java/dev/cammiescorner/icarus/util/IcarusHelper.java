@@ -30,6 +30,10 @@ import java.util.function.Predicate;
 
 public class IcarusHelper {
 
+    /** Vertical bob for hover (blocks). Uses {@link LivingEntity#tickCount} for phase so server and clients match. */
+    public static final double HOVER_BOB_AMPLITUDE_BLOCKS = 0.86D;
+    public static final float HOVER_BOB_PHASE_PER_TICK = 0.2F;
+
     @ApiStatus.Internal
     public static Predicate<LivingEntity> hasWings = entity -> false;
 
@@ -131,6 +135,22 @@ public class IcarusHelper {
         return configValuesProvider.apply(entity);
     }
 
+    /** World-space Y for hover bob; same formula must run on the server and on the client for the local player. */
+    public static double hoverBobTargetY(LivingEntity entity, HoveringEntity hover) {
+        float phase = entity.tickCount * HOVER_BOB_PHASE_PER_TICK;
+        return hover.icarus$getHoverCenterY() + Math.sin(phase) * HOVER_BOB_AMPLITUDE_BLOCKS;
+    }
+
+    /** Server or local client: lock hover position and kill vertical inertia. */
+    public static void applyHoverPhysics(Player player) {
+        HoveringEntity hover = (HoveringEntity) player;
+        player.setNoGravity(true);
+        var move = player.getDeltaMovement();
+        double ty = hoverBobTargetY(player, hover);
+        player.setPos(player.getX(), ty, player.getZ());
+        player.setDeltaMovement(move.x() * 0.1D, 0.0D, move.z() * 0.1D);
+    }
+
     /** Called from {@code tick} TAIL mixins on server/client player (after movement). */
     public static void tickIcarusSlowFall(Player player) {
         SlowFallingEntity slow = (SlowFallingEntity) player;
@@ -149,7 +169,10 @@ public class IcarusHelper {
         }
 
         player.fallDistance = 0F;
-        hover.icarus$setHoverPhase(hover.icarus$getHoverPhase() + 0.2F);
+        // Hover wing phase comes from tickCount in render; only advance stored phase for slow-fall (client).
+        if (player.level().isClientSide() && slowFalling && !hovering) {
+            hover.icarus$setHoverPhase(hover.icarus$getHoverPhase() + HOVER_BOB_PHASE_PER_TICK);
+        }
 
         if (hovering && player.isShiftKeyDown()) {
             player.setNoGravity(false);
@@ -165,13 +188,11 @@ public class IcarusHelper {
         } else {
             var move = player.getDeltaMovement();
             if (hovering) {
-                player.setNoGravity(true);
-                float phase = hover.icarus$getHoverPhase();
-                double centerY = hover.icarus$getHoverCenterY();
-                double amp = 0.86D;
-                double targetY = centerY + Math.sin(phase) * amp;
-                player.setPos(player.getX(), targetY, player.getZ());
-                player.setDeltaMovement(move.x() * 0.1D, 0.0D, move.z() * 0.1D);
+                // One authority for bob: tickCount-based sine on the server; local client mirrors in
+                // AbstractClientPlayerSlowFallMixin so momentum/gravity prediction cannot drift.
+                if (!player.level().isClientSide()) {
+                    applyHoverPhysics(player);
+                }
             } else if (slowFalling) {
                 player.setNoGravity(false);
                 float d = Mth.clamp(IcarusConfig.slowFallDescentPerTick, 0.02F, 2.0F);
